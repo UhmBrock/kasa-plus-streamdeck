@@ -1,6 +1,8 @@
-import { existsSync } from 'fs';
+import { existsSync } from 'node:fs';
+import * as path from 'node:path';
+
 import { readFileSync, writeFileSync } from 'jsonfile';
-import * as path from 'path';
+
 import { manifestNs } from './manifest';
 
 const version = process.argv[2];
