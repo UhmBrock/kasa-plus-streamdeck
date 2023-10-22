@@ -1,8 +1,10 @@
 {
+  "Category": "Kasa Smart Home",
+  "CategoryIcon": "images/pluginIcon.png",
   "Actions": [
     {
       "Icon": "images/action1.icon",
-      "Name": "Your first action",
+      "Name": "Toggle Device",
       "States": [
         {
           "Image": "images/action1.key",
@@ -10,18 +12,29 @@
           "FontSize": "15"
         }
       ],
+      "Controllers": ["Keypad", "Encoder"],
+      "Encoder": {
+				"layout": "$B1",
+				"TriggerDescription": {
+					"Rotate": "Rotate to increase/decrease the number",
+					"Push": "Describe the encoder push",
+					"Touch": "Describe the touch",
+					"LongTouch": "Describe the long touch"
+				}
+			},
       "SupportedInMultiActions": false,
       "Tooltip": "",
-      "UUID": "reverse.dns.formatted.namespace.action"
+      "UUID": "bsharp.kasa-plus.action"
     }
   ],
   "SDKVersion": 2,
-  "Author": "your name",
+  "Author": "Brock Sharp",
   "CodePath": "plugin.html",
   "PropertyInspectorPath": "propertyinspector.html",
-  "Name": "streamdeck template",
-  "Description": "a description",
+  "Name": "Kasa Plus",
+  "Description": "Kasa Smart Home Actions for Stream Deck",
   "Icon": "images/pluginIcon",
+	"URL": "https://www.elgato.com/en/gaming/stream-deck",
   "Version": "0.0.0-development",
   "OS": [
     {
@@ -34,6 +47,6 @@
     }
   ],
   "Software": {
-    "MinimumVersion": "4.1"
+    "MinimumVersion": "5.0"
   }
 }
