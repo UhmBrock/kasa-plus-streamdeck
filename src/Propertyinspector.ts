@@ -1,7 +1,8 @@
 import { FormBuilder } from '@rweich/streamdeck-formbuilder';
 import { Streamdeck } from '@rweich/streamdeck-ts';
 
-import { KasaDevice } from './Plugin';
+import KasaApi from './KasaApi';
+import { KasaDevice } from './KasaTypeGuards';
 import { isSettings, Settings } from './Settings';
 
 const pi = new Streamdeck().propertyinspector();
@@ -11,7 +12,9 @@ pi.on('websocketOpen', ({ uuid }) => pi.getSettings(uuid));
 
 pi.on('didReceiveSettings', ({ settings }) => {
   if (builder === undefined) {
-    const initialData: Settings = isSettings(settings) ? settings : { bearerToken: '', deviceList: '[]' };
+    const initialData: Settings = isSettings(settings)
+      ? settings
+      : { bearerToken: '', deviceList: '[]', selectedDeviceId: '' };
     builder = new FormBuilder<Settings>(initialData);
 
     builder.addHtml(
@@ -37,17 +40,14 @@ pi.on('didReceiveSettings', ({ settings }) => {
     const devicesDropdown = builder.createDropdown().setLabel('deviceList');
     devicesDropdown.addOption('Select a device', '');
 
-    try {
-      const devices: KasaDevice[] = JSON.parse(initialData.deviceList);
-      for (const device of devices) {
-        devicesDropdown.addOption(device.alias, device.deviceId);
-      }
-    } catch (error) {
-      console.error('Error parsing devices:', error);
+    const devices: KasaDevice[] = JSON.parse(initialData.deviceList) ?? [];
+
+    for (const device of devices) {
+      devicesDropdown.addOption(device.alias, device.deviceId);
     }
 
     builder.addElement('bearerToken', bearerTokenTextfield);
-    builder.addElement('deviceList', devicesDropdown);
+    builder.addElement('selectedDeviceId', devicesDropdown);
     builder.appendTo(document.querySelector('.sdpi-wrapper') ?? document.body);
 
     builder.on('change-settings', () => {
